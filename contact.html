@@ -297,7 +297,7 @@
                     <div
                       class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent"
                     ></div>
-                    <form class="space-y-6">
+                    <form id="contactForm" class="space-y-6" onsubmit="handleContactSubmit(event)">
                       <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                           <label
@@ -658,5 +658,26 @@
     </div>
 
     <div id="replit-pill-host"></div>
-  </body>
+    <div id="sentMessage" class="hidden fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg">Message sent! We will contact you soon.</div>
+  <script>
+function handleContactSubmit(event) {
+  event.preventDefault();
+  const form = document.getElementById('contactForm');
+  const name = form.querySelector('[data-testid="input-name"]').value;
+  const email = form.querySelector('[data-testid="input-email"]').value;
+  const company = form.querySelector('[data-testid="input-company"]').value;
+  const service = form.querySelector('[data-testid="select-service"]').value;
+  const message = form.querySelector('[data-testid="input-message"]').value;
+  const subject = encodeURIComponent('Contact Request: ' + service);
+  const body = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nService: ${service}\n\nMessage:\n${message}`
+  );
+  window.open(`mailto:juanmanuel1912@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      document.getElementById('sentMessage').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('sentMessage').classList.add('hidden');
+      }, 5000);
+}
+</script>
+</body>
 </html>
